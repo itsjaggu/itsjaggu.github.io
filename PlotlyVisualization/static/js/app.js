@@ -1,18 +1,18 @@
+var dropdownMenu = d3.select("#selDataset");
+
 function init() {
     loadIDs();
-    barPlot();
+    // Assign the value of the dropdown menu option to a variable
+    var selectedValue = dropdownMenu.property("value");
+    barPlot(selectedValue);
 }
 
 function loadIDs() {
     // Use D3 to select the dropdown menu
-    var dropdownMenu = d3.select("#selDataset");
+    //var dropdownMenu = d3.select("#selDataset");
     d3.json("data/samples.json").then((importedData) => {
         ids = importedData.names;
         ids.forEach((id) => {
-            if (selectedID === null) {
-                selectedID = id ;
-                console.log(selectedID);
-            }
             var option = dropdownMenu.append("option");
             option.text(id);
         });
