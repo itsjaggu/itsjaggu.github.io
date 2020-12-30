@@ -32,23 +32,22 @@ function barPlot(selectedID) {
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
-        filteredData.map.remove("id");
         // Sort the data array using the greekSearchResults value
-        filteredData.sort(function(a, b) {
+        /*filteredData.sort(function(a, b) {
             return parseFloat(b.sample_values) - parseFloat(a.sample_values);
-        });
+        });*/
 
         // Slice the first 10 objects for plotting
-        filteredData = filteredData.slice(0, 10);
+        //filteredData = filteredData.slice(0, 10);
 
         // Reverse the array due to Plotly's defaults
-        filteredData = filteredData.reverse();
+        //filteredData = filteredData.reverse();
     
         // Create your trace.
         var trace = {
-            x: filteredData.map(row => row.sample_values),
-            y: filteredData.map(row => row.otu_ids),
-            text: filteredData.map(row => row.otu_labels),
+            x: filteredData.sample_values.slice(0,10),
+            y: filteredData.otu_ids.slice(0,10),
+            text: filteredData.otu_labels.slice(0,10),
             name: "OTU",
             type: "bar",
             orientation: "h"
