@@ -4,6 +4,7 @@ function init() {
     loadIDs();
     // Assign the value of the dropdown menu option to a variable
     var selectedValue = dropdownMenu.property("value");
+    console.log(selectedValue);
     barPlot(selectedValue);
 }
 
@@ -21,7 +22,7 @@ function loadIDs() {
 
 function optionChanged(selectedValue) {
     console.log(selectedValue);
-    barPlots(selectedValue);
+    barPlot(selectedValue);
 }
 // Use d3.json() to fetch data from JSON file
 // Incoming data is internally referred to as importedData
@@ -30,6 +31,7 @@ function barPlot(selectedID) {
         var data = importedData.samples;
         
         var filteredData = filterData(data,selectedID);
+        console.log(filteredData);
 
         // Sort the data array using the greekSearchResults value
         filteredData.sort(function(a, b) {
