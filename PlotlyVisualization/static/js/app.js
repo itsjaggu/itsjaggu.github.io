@@ -3,9 +3,7 @@ var dropdownMenu = d3.select("#selDataset");
 function init() {
     loadIDs();
     // Assign the value of the dropdown menu option to a variable
-    var selectedValue = dropdownMenu.property("value");
-    console.log(selectedValue);
-    barPlot(selectedValue);
+    barPlot(null);
 }
 
 function loadIDs() {
@@ -29,7 +27,10 @@ function optionChanged(selectedValue) {
 function barPlot(selectedID) {
     d3.json("data/samples.json").then((importedData) => {
         var data = importedData.samples;
-        
+        if (selectedID == null) {
+            selectedID = data.id[0];
+            console.log("Default ID:" & selectedID);
+        }
         var filteredData = filterData(data,selectedID);
         console.log(filteredData);
 
