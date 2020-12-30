@@ -1,5 +1,3 @@
-var selectedID;
-
 function init() {
     loadIDs();
     barPlot();
@@ -13,6 +11,7 @@ function loadIDs() {
         ids.forEach((id) => {
             if (selectedID === null) {
                 selectedID = id ;
+                console.log(selectedID);
             }
             var option = dropdownMenu.append("option");
             option.text(id);
@@ -21,16 +20,16 @@ function loadIDs() {
 }
 
 function optionChanged(selectedValue) {
-    selectedID = selectedValue;
-    barPlot();
+    console.log(selectedValue);
+    barPlots(selectedValue);
 }
 // Use d3.json() to fetch data from JSON file
 // Incoming data is internally referred to as importedData
-function barPlot() {
+function barPlot(selectedID) {
     d3.json("data/samples.json").then((importedData) => {
         var data = importedData.samples;
         
-        var filteredData = filterData(data);
+        var filteredData = filterData(data,selectedID);
 
         // Sort the data array using the greekSearchResults value
         filteredData.sort(function(a, b) {
@@ -72,7 +71,7 @@ function barPlot() {
     });
 }
 
-function filterData(data) {
+function filterData(data,selectedID) {
     return data.id = selectedID;
 }
 
