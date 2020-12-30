@@ -3,7 +3,8 @@ var dropdownMenu = d3.select("#selDataset");
 function init() {
     loadIDs();
     // Assign the value of the dropdown menu option to a variable
-    barPlot(null);
+    var selectedValue = dropdownMenu.property("value");;
+    barPlot(selectedValue);
 }
 
 function loadIDs() {
@@ -27,12 +28,8 @@ function optionChanged(selectedValue) {
 function barPlot(selectedID) {
     d3.json("data/samples.json").then((importedData) => {
         var data = importedData.samples;
-        /*if (selectedID == null) {
-            selectedID = data[0].id;
-            console.log("Default ID:" & selectedID);
-        }*/
-        //var filteredData = filterData(data,selectedID);
-        var filteredData = data.id.filter(filterData);
+        
+        var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
         // Sort the data array using the greekSearchResults value
@@ -75,8 +72,8 @@ function barPlot(selectedID) {
     });
 }
 
-function filterData(id) {
-    return id = dropdownMenu.property("value");;
+function filterData(data,id) {
+    return data.id = id;
 }
 
 init();
