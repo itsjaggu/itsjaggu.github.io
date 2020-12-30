@@ -1,52 +1,43 @@
 // Use d3.json() to fetch data from JSON file
-// Incoming data is internally referred to as incomingData
-d3.json("data/samples.json").then((incomingData) => {
-    function filterIdData(otu) { //sorting to top 10 function
-        otu.samples.id = "940"
-    }
+// Incoming data is internally referred to as importedData
+d3.json("data/samples.json").then((importedData) => {
+    var data = importedData.samples;
   
-    // Use filter() to pass the function as its argument
-    var filteredId = incomingData.filter(filterIdData);
-  
-    //  Check to make sure your are filtering your movies.
-    console.log(filteredId);
-  
-    /*otu.samples.sample_values.sort(function(a, b) {
-        return parseFloat(b.value) - parseFloat(a.value);
-      });
-    return otu.slice(0, 9); */
+    // Sort the data array using the greekSearchResults value
+    data.sort(function(a, b) {
+        return parseFloat(b.sample_values) - parseFloat(a.sample_values);
+    });
 
-    // Use the map method with the arrow function to return all the filtered movie titles.
-    var sample_values = filteredId.map(otuSamples =>  otuSamples.samples.sample_values);
-  
-    // Use the map method with the arrow function to return all the filtered movie metascores.
-    var otu_ids = filteredId.map(otuSamples =>  otuSamples.samples.otu_ids);
-  
-    // Use the map method with the arrow function to return all the filtered movie metascores.
-    var otu_labels = filteredId.map(otuSamples =>  otuSamples.samples.otu_labels);
+    // Slice the first 10 objects for plotting
+    data = data.slice(0, 10);
 
-    // Check your filtered metascores.
-    console.log(ratings);
+    // Reverse the array due to Plotly's defaults
+    data = data.reverse();
   
     // Create your trace.
     var trace = {
-      x: sample_values,
-      y: otu_ids,
-      text: otu_labels,
-      type: "bar",
-      orientation: 'h'
+        x: data.map(row => row.sample_values),
+        y: data.map(row => row.otu_ids),
+        text: data.map(row => row.otu_labels),
+        name: "OTU",
+        type: "bar",
+        orientation: "h"
     };
   
     // Create the data array for our plot
-    var data = [trace];
+    var chartData = [trace];
   
     // Define the plot layout
     var layout = {
-      title: "Top Ten OTUs",
-      xaxis: { title: "OTU Values" },
-      yaxis: { title: "OTU IDs"}
+        title: "Top Ten OTUs",
+        margin: {
+          l: 100,
+          r: 100,
+          t: 100,
+          b: 100
+        }
     };
   
     // Plot the chart to a div tag with id "bar-plot"
-    Plotly.newPlot("bar", data, layout);
+    Plotly.newPlot("bar", chartData, layout);
 });
