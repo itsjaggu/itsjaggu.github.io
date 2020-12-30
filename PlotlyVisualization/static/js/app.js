@@ -3,8 +3,8 @@ var dropdownMenu = d3.select("#selDataset");
 function init() {
     loadIDs();
     // Assign the value of the dropdown menu option to a variable
-    var selectedValue = d3.select("#selDataset option:checked").property("value");
-    barPlot(selectedValue);
+    //var selectedValue = d3.select("#selDataset option:checked").property("value");
+    barPlot(null);
 }
 
 function loadIDs() {
@@ -29,6 +29,11 @@ function barPlot(selectedID) {
     d3.json("data/samples.json").then((importedData) => {
         var data = importedData.samples;
 
+        if (selectedID == null) {
+            selectedID = d3.select("#selDataset option:checked").property("value");
+        }
+        console.log(selectedID);
+        
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
@@ -46,9 +51,9 @@ function barPlot(selectedID) {
     
         // Create your trace.
         var trace = {
-            x: filteredData[0].sample_values.slice(0,10),
-            y: filteredData[0].otu_ids.slice(0,10),
-            text: filteredData[0].otu_labels.slice(0,10),
+            x: filteredData[0].sample_values.slice(0,10).reverse(),
+            y: filteredData[0].otu_ids.slice(0,10).reverse(),
+            text: filteredData[0].otu_labels.slice(0,10).reverse(),
             name: "OTU",
             type: "bar",
             orientation: "h"
