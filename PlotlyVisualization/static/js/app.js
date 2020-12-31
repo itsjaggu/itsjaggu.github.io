@@ -17,7 +17,7 @@ function loadIDs() {
     d3.json("data/samples.json").then((importedData) => {
         ids = importedData.names;
         if (selectedID == 0) {
-            selectedID = ids[0].value;
+            selectedID = ids[0];
         }
         ids.forEach((id) => {
             var option = dropdownMenu.append("option");
