@@ -2,7 +2,6 @@ var dropdownMenu = d3.select("#selDataset");
 var selectedID = 0;
 
 function init() {
-    loadIDs();
     // Assign the value of the dropdown menu option to a variable
     //var selectedValue = d3.select("#selDataset option:checked").property("value");
     barPlot(selectedID);
@@ -220,5 +219,5 @@ function loadGauge(selectedID) {
     });
     
 }
-
+loadIDs();
 init();
