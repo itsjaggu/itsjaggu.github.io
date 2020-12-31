@@ -1,14 +1,10 @@
 var dropdownMenu = d3.select("#selDataset");
-var selectedID = 0;
 
 function loadIDs() {
     // Use D3 to select the dropdown menu
     //var dropdownMenu = d3.select("#selDataset");
     d3.json("data/samples.json").then((importedData) => {
         ids = importedData.names;
-        if (selectedID == 0) {
-            selectedID = ids[0];
-        }
         ids.forEach((id) => {
             var option = dropdownMenu.append("option");
             option.text(id);
@@ -16,12 +12,13 @@ function loadIDs() {
     });
 }
 function init() {
+    loadIDs();
     // Assign the value of the dropdown menu option to a variable
     //var selectedValue = d3.select("#selDataset option:checked").property("value");
-    barPlot(selectedID);
-    loadDemographics(selectedID);
-    loadBubble(selectedID);
-    loadGauge(selectedID);
+    barPlot(null);
+    loadDemographics(null);
+    loadBubble(null);
+    loadGauge(null);
 }
 
 function optionChanged(selectedValue) {
@@ -34,13 +31,12 @@ function optionChanged(selectedValue) {
 // Use d3.json() to fetch data from JSON file
 // Incoming data is internally referred to as importedData
 function barPlot(selectedID) {
-    // if (selectedID == null) {
-    //     selectedID = d3.select("#selDataset option:checked").property("value");
-    // }
     d3.json("data/samples.json").then((importedData) => {
-        
+        if (selectedID == null) {
+            selectedID = importedData.names[0];
+        }
         var data = importedData.samples;
-
+        
         console.log(selectedID);
 
         var filteredData = data.filter(row => row.id === selectedID);
@@ -88,12 +84,12 @@ function barPlot(selectedID) {
 }
 
 function loadDemographics(selectedID) {
-    // if (selectedID == null) {
-    //     selectedID = d3.select("#selDataset option:checked").property("value");
-    // }
     var demographicsDiv = d3.select("#sample-metadata");
     demographicsDiv.html("");
     d3.json("data/samples.json").then((importedData) => {
+        if (selectedID == null) {
+            selectedID = importedData.names[0];
+        }
         var data = importedData.metadata;
         var filteredData = data.filter(row => row.id == selectedID);
         console.log(filteredData);
@@ -106,10 +102,10 @@ function loadDemographics(selectedID) {
 }
 
 function loadBubble(selectedID) {
-    // if (selectedID == null) {
-    //     selectedID = d3.select("#selDataset option:checked").property("value");
-    // }
     d3.json("data/samples.json").then((importedData) => {
+        if (selectedID == null) {
+            selectedID = importedData.names[0];
+        }
         var data = importedData.samples;
 
         console.log(selectedID);
@@ -157,11 +153,11 @@ function loadBubble(selectedID) {
 }
 
 function loadGauge(selectedID) {
-    // if (selectedID == null) {
-    //     selectedID = d3.select("#selDataset option:checked").property("value");
-    // }
     var gaugeValue = 0;
     d3.json("data/samples.json").then((importedData) => {
+        if (selectedID == null) {
+            selectedID = importedData.names[0];
+        }
         var data = importedData.metadata;
         var filteredData = data.filter(row => row.id == selectedID);
         console.log(filteredData);
@@ -218,5 +214,5 @@ function loadGauge(selectedID) {
     });
     
 }
-loadIDs();
+
 init();
