@@ -1,15 +1,6 @@
 var dropdownMenu = d3.select("#selDataset");
 var selectedID = 0;
 
-function init() {
-    // Assign the value of the dropdown menu option to a variable
-    //var selectedValue = d3.select("#selDataset option:checked").property("value");
-    barPlot(selectedID);
-    loadDemographics(selectedID);
-    loadBubble(selectedID);
-    loadGauge(selectedID);
-}
-
 function loadIDs() {
     // Use D3 to select the dropdown menu
     //var dropdownMenu = d3.select("#selDataset");
@@ -23,6 +14,14 @@ function loadIDs() {
             option.text(id);
         });
     });
+}
+function init() {
+    // Assign the value of the dropdown menu option to a variable
+    //var selectedValue = d3.select("#selDataset option:checked").property("value");
+    barPlot(selectedID);
+    loadDemographics(selectedID);
+    loadBubble(selectedID);
+    loadGauge(selectedID);
 }
 
 function optionChanged(selectedValue) {
