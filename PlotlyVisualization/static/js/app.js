@@ -6,8 +6,8 @@ function init() {
     //var selectedValue = d3.select("#selDataset option:checked").property("value");
     barPlot(null);
     loadDemographics(null);
-    loadGauge(null);
     loadBubble(null);
+    loadGauge(null);
 }
 
 function loadIDs() {
@@ -26,8 +26,8 @@ function optionChanged(selectedValue) {
     console.log(selectedValue);
     barPlot(selectedValue);
     loadDemographics(selectedValue);
-    loadGauge(selectedValue);
     loadBubble(selectedValue);
+    loadGauge(selectedValue);
 }
 // Use d3.json() to fetch data from JSON file
 // Incoming data is internally referred to as importedData
@@ -44,12 +44,7 @@ function barPlot(selectedID) {
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
-        /*sample_values = filteredData.sample_values;
-        // Sort the data array using the greekSearchResults value
-        filteredData.sort(function(a, b) {
-            return parseFloat(b.sample_values) - parseFloat(a.sample_values);
-        });
-        filteredData[0].sample_values.sort((sample1, sample2) => sample1 - sample2);
+        /*filteredData[0].sample_values.sort((sample1, sample2) => sample1 - sample2);
         // Slice the first 10 objects for plotting
         filteredData = filteredData.slice(0, 10);
 
@@ -57,11 +52,13 @@ function barPlot(selectedID) {
         filteredData = filteredData.reverse();*/
     
         // Create your trace.
+        xValues = filteredData[0].sample_values.slice(0,10).reverse();
+        yValues = filteredData[0].otu_ids.slice(0,10).reverse();
+        dataLabels = filteredData[0].otu_labels.slice(0,10).reverse();
         var trace = {
-            x: filteredData[0].sample_values.slice(0,10).reverse(),
-            //y: filteredData[0].otu_ids.slice(0,10).reverse().map(row => row),
-            text: filteredData[0].otu_labels.slice(0,10).reverse(),
-            name: "OTU",
+            x: xValues,
+            y: yValues.map((d, i) => i),
+            text: dataLabels,
             type: "bar",
             orientation: "h"
         };
@@ -71,7 +68,10 @@ function barPlot(selectedID) {
     
         // Define the plot layout
         var layout = {
-            title: "Top Ten OTUs",
+            yaxis: {
+                tickvals: yValues.map((d, i) => i),
+                ticktext: yValues.map(d => "OTU "+d.toString()),
+            },
             margin: {
             l: 100,
             r: 100,
@@ -90,11 +90,67 @@ function loadDemographics(selectedID) {
         selectedID = d3.select("#selDataset option:checked").property("value");
     }
     var demographicsDiv = d3.select("#sample-metadata");
+    demographicsDiv.html("");
     d3.json("data/samples.json").then((importedData) => {
         var data = importedData.metadata;
+        var filteredData = data.filter(row => row.id == selectedID);
+        console.log(filteredData);
+        Object.entries(filteredData[0]).forEach(([key, value]) => {
+            var span = demographicsDiv.append("span");
+            span.text(key+": "+value);
+            demographicsDiv.append("br");
+        });
+    });
+}
+
+function loadBubble(selectedID) {
+    if (selectedID == null) {
+        selectedID = d3.select("#selDataset option:checked").property("value");
+    }
+    d3.json("data/samples.json").then((importedData) => {
+        var data = importedData.samples;
+
+        console.log(selectedID);
+
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
-        demographicsDiv.text(filteredData);
+
+        // Create your trace.
+        xValues = filteredData[0].otu_ids.reverse();
+        yValues = filteredData[0].sample_values.reverse();
+        textValues = filteredData[0].otu_labels.reverse();
+        var trace = {
+            x: xValues,
+            y: yValues,
+            mode: 'markers',
+            marker: {
+                size: yValues,
+                color: xValues
+            },
+            text: textValues
+        };
+    
+        // Create the data array for our plot
+        var chartData = [trace];
+    
+        // Define the plot layout
+        var layout = {
+            xaxis: {
+                title: {
+                    text: "OTU ID"
+                }
+            },
+            showlegend: false,
+            margin: {
+            l: 100,
+            r: 100,
+            t: 100,
+            b: 100
+            }
+        };
+    
+        // Plot the chart to a div tag with id "bar-plot"
+        Plotly.newPlot("bubble", chartData, layout);
     });
 }
 
@@ -103,13 +159,7 @@ function loadGauge(selectedID) {
         selectedID = d3.select("#selDataset option:checked").property("value");
     }
     var gaugeDiv = d3.select("#gauge");
-}
-
-function loadBubble(selectedID) {
-    if (selectedID == null) {
-        selectedID = d3.select("#selDataset option:checked").property("value");
-    }
-    var bubbleDiv = d3.select("#bubble");
+    
 }
 
 init();
