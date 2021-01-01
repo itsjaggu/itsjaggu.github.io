@@ -1,4 +1,4 @@
-/* function loadGauge(selectedID) {
+function loadGauge(selectedID) {
     var gaugeValue = 0;
     d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
@@ -59,7 +59,7 @@
         Plotly.newPlot("gauge", chartData, layout);
     });
     
-} */
+}
 
 /* function loadGauge(selectedID){
     var gaugeValue = 0;
@@ -108,8 +108,6 @@
       showlegend: false,
       hoverinfo: "skip"
     }
-  
-    // the needle (triangular version)
   
     // add weights to the degrees to correct needle
     var weight = 0;
