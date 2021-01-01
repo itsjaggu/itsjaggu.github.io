@@ -1,4 +1,4 @@
-function loadGauge(selectedID) {
+/* function loadGauge(selectedID) {
     var gaugeValue = 0;
     d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
@@ -59,11 +59,11 @@ function loadGauge(selectedID) {
         Plotly.newPlot("gauge", chartData, layout);
     });
     
-}
+} */
 
-/* function loadGauge(selectedID){
-    var gaugeValue = 0;
-    d3.json("data/samples.json").then((importedData) => {
+function loadGauge(wfreq){
+    var gaugeValue = wfreq;
+    /* d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
@@ -75,7 +75,7 @@ function loadGauge(selectedID) {
                 gaugeValue = value;
             }
         });
-    });
+    }); */
 
     // pie chart converted to gauge chart
     var trace = {
@@ -164,4 +164,4 @@ function loadGauge(selectedID) {
     };
   
     Plotly.newPlot("gauge", [trace, needleStart], gaugeLayout);
-  } */
+  }

@@ -5,7 +5,7 @@ function init() {
     barPlot(null);
     loadDemographics(null);
     loadBubble(null);
-    loadGauge(null);
+    //loadGauge(null);
 }
 
 function loadIDs() {
@@ -25,7 +25,7 @@ function optionChanged(selectedValue) {
     barPlot(selectedValue);
     loadDemographics(selectedValue);
     loadBubble(selectedValue);
-    loadGauge(selectedValue);
+    //loadGauge(selectedValue);
 }
 
 // Use d3.json() to fetch data from JSON file
@@ -83,7 +83,7 @@ function barPlot(selectedID) {
     });
 }
 
-function loadDemographics(selectedID) {
+async function loadDemographics(selectedID) {
     var demographicsDiv = d3.select("#sample-metadata");
     demographicsDiv.html("");
     d3.json("data/samples.json").then((importedData) => {
@@ -98,6 +98,7 @@ function loadDemographics(selectedID) {
             span.text(key+": "+value);
             demographicsDiv.append("br");
         });
+        loadGauge(filteredData[0].wfreq)
     });
 }
 
