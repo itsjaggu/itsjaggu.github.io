@@ -61,9 +61,9 @@
     
 } */
 
-function loadGauge(wfreq){
-    /* var gaugeValue = 0;
-       d3.json("data/samples.json").then((importedData) => {
+function loadGauge(selectedID){
+    var gaugeValue = 0;
+    d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
@@ -75,8 +75,8 @@ function loadGauge(wfreq){
                 gaugeValue = value;
             }
         });
-    }); */
-    var gaugeValue = wfreq;
+    });
+
     // pie chart converted to gauge chart
     var trace = {
       type: 'pie',

@@ -18,7 +18,7 @@ function init() {
     barPlot(null);
     loadDemographics(null);
     loadBubble(null);
-    loadGauge(getWfreq(null));
+    loadGauge(null);
 }
 
 function optionChanged(selectedValue) {
@@ -26,26 +26,9 @@ function optionChanged(selectedValue) {
     barPlot(selectedValue);
     loadDemographics(selectedValue);
     loadBubble(selectedValue);
-    loadGauge(getWfreq(selectedValue));
+    loadGauge(selectedValue);
 }
 
-function getWfreq(selectedID) {
-    var gaugeValue = 0;
-    d3.json("data/samples.json").then((importedData) => {
-        if (selectedID == null) {
-            selectedID = importedData.names[0];
-        }
-        var data = importedData.metadata;
-        var filteredData = data.filter(row => row.id == selectedID);
-        console.log(filteredData);
-        Object.entries(filteredData[0]).forEach(([key, value]) => {
-            if (key == "wfreq") {
-                gaugeValue = value;
-            }
-        });
-    });
-    return gaugeValue;
-}
 // Use d3.json() to fetch data from JSON file
 // Incoming data is internally referred to as importedData
 function barPlot(selectedID) {
