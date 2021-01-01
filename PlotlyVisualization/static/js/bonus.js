@@ -61,23 +61,24 @@
     
 } */
 
-function loadGauge(selectedID){
-    let gaugeValue = 0;
-    d3.json("data/samples.json").then((importedData) => {
+function loadGauge(wfreq){
+    /* var gaugeValue = 0;
+       d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
-        let data = importedData.metadata;
-        let filteredData = data.filter(row => row.id == selectedID);
+        var data = importedData.metadata;
+        var filteredData = data.filter(row => row.id == selectedID);
         console.log(filteredData);
         Object.entries(filteredData[0]).forEach(([key, value]) => {
             if (key == "wfreq") {
                 gaugeValue = value;
             }
         });
-    });
+    }); */
+    var gaugeValue = wfreq;
     // pie chart converted to gauge chart
-    let trace = {
+    var trace = {
       type: 'pie',
       showlegend: false,
       hole: 0.4,
@@ -96,7 +97,7 @@ function loadGauge(selectedID){
     }
   
     // the start point where the needle "originates"
-    let needleStart = {
+    var needleStart = {
       type: 'scatter',
       x: [0],
       y: [0],
@@ -111,7 +112,7 @@ function loadGauge(selectedID){
     // the needle (triangular version)
   
     // add weights to the degrees to correct needle
-    let weight = 0;
+    var weight = 0;
     if (gaugeValue == 2 || gaugeValue == 3){
       weight = 3;
     } else if (gaugeValue == 4){
@@ -124,23 +125,23 @@ function loadGauge(selectedID){
       weight = -3;
     }
   
-    let degrees = 180-(20 * gaugeValue + weight); // 20 degrees for each of the 9 gauge sections
-    let radius = .5;
-    let radians = degrees * Math.PI / 180;
-    let aX = 0.025 * Math.cos((radians) * Math.PI / 180);
-    let aY = 0.025 * Math.sin((radians) * Math.PI / 180);
-    let bX = -0.025 * Math.cos((radians) * Math.PI / 180);
-    let bY = -0.025 * Math.sin((radians) * Math.PI / 180);
-    let cX = radius * Math.cos(radians);
-    let cY = radius * Math.sin(radians);
+    var degrees = 180-(20 * gaugeValue + weight); // 20 degrees for each of the 9 gauge sections
+    var radius = .5;
+    var radians = degrees * Math.PI / 180;
+    var aX = 0.025 * Math.cos((radians) * Math.PI / 180);
+    var aY = 0.025 * Math.sin((radians) * Math.PI / 180);
+    var bX = -0.025 * Math.cos((radians) * Math.PI / 180);
+    var bY = -0.025 * Math.sin((radians) * Math.PI / 180);
+    var cX = radius * Math.cos(radians);
+    var cY = radius * Math.sin(radians);
   
     // draw the triangle
-    let path = 'M ' + aX + ' ' + aY +
+    var path = 'M ' + aX + ' ' + aY +
               ' L ' + bX + ' ' + bY +
               ' L ' + cX + ' ' + cY +
               ' Z';
   
-    let gaugeLayout = {
+    var gaugeLayout = {
       title: "<b>Belly Button Washing Frequency</b><br>Scrubs per Week",
       shapes:[{
           type: 'path',
