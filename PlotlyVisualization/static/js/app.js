@@ -1,5 +1,5 @@
 var dropdownMenu = d3.select("#selDataset");
-var importedData;
+var importedData = null;
 d3.json("data/samples.json").then((jsonData) => {
     importedData = jsonData;
 });
