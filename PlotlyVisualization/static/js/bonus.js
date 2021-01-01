@@ -164,7 +164,5 @@ function loadGauge(selectedID){
             }
     };
   
-    Plotly.newPlot("gauge", [traceGauge, needleStart], gaugeLayout);
+    Plotly.newPlot("gauge", [trace, needleStart], gaugeLayout);
   }
-
-  loadGauge(null);
