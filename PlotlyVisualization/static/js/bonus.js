@@ -61,7 +61,7 @@
     
 } */
 
-function loadGauge(selectedID){
+/* function loadGauge(selectedID){
     var gaugeValue = 0;
     d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
@@ -166,4 +166,4 @@ function loadGauge(selectedID){
     };
   
     Plotly.newPlot("gauge", [trace, needleStart], gaugeLayout);
-  }
+  } */
