@@ -1,8 +1,4 @@
 var dropdownMenu = d3.select("#selDataset");
-var importedData = null;
-d3.json("data/samples.json").then((jsonData) => {
-    importedData = jsonData;
-});
 
 function init() {
     loadIDs();
@@ -15,13 +11,13 @@ function init() {
 function loadIDs() {
     // Use D3 to select the dropdown menu
     //var dropdownMenu = d3.select("#selDataset");
-    //d3.json("data/samples.json").then((importedData) => {
+    d3.json("data/samples.json").then((importedData) => {
         ids = importedData.names;
         ids.forEach((id) => {
             var option = dropdownMenu.append("option");
             option.text(id);
         });
-    //});
+    });
 }
 
 function optionChanged(selectedValue) {
@@ -35,7 +31,7 @@ function optionChanged(selectedValue) {
 // Use d3.json() to fetch data from JSON file
 // Incoming data is internally referred to as importedData
 function barPlot(selectedID) {
-    //d3.json("data/samples.json").then((importedData) => {
+    d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
@@ -84,13 +80,13 @@ function barPlot(selectedID) {
     
         // Plot the chart to a div tag with id "bar-plot"
         Plotly.newPlot("bar", chartData, layout);
-    //});
+    });
 }
 
 function loadDemographics(selectedID) {
     var demographicsDiv = d3.select("#sample-metadata");
     demographicsDiv.html("");
-    //d3.json("data/samples.json").then((importedData) => {
+    d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
@@ -102,11 +98,11 @@ function loadDemographics(selectedID) {
             span.text(key+": "+value);
             demographicsDiv.append("br");
         });
-    //});
+    });
 }
 
 function loadBubble(selectedID) {
-    //d3.json("data/samples.json").then((importedData) => {
+    d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
@@ -153,7 +149,7 @@ function loadBubble(selectedID) {
     
         // Plot the chart to a div tag with id "bar-plot"
         Plotly.newPlot("bubble", chartData, layout);
-    //});
+    });
 }
 
 init();
