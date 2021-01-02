@@ -77,15 +77,15 @@ function loadGauge(wfreq){
       textinfo: 'text',
       textposition: 'inside',
       marker: {
-        colors: ['#F8F3EC'
-                  ,'#F4F1E5'
-                  ,'#E9E6CA'
-                  ,'#E2E4B1'
-                  ,'#D5E49D'
-                  ,'#B7CC92'
-                  ,'#8CBF88'
-                  ,'#8ABB8F'
-                  ,'#85B48A'
+        colors: ['#ecebbd'
+                  ,'#dde26a'
+                  ,'#d9e650'
+                  ,'#c9dc87'
+                  ,'#bdda57'
+                  ,'#9acd32'
+                  ,'#8bbe1b'
+                  ,'#568203'
+                  ,'#2a8000'
                   ,'white'],
         labels: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9',''],
         hoverinfo: "label"
