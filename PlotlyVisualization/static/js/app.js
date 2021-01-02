@@ -1,18 +1,21 @@
+//selecting dropdown control to load IDs for filtering charts
 var dropdownMenu = d3.select("#selDataset");
 
+// function to initiate loading dynamic page content on page load
 function init() {
     loadIDs();
     barPlot(null);
     loadDemographics(null);
     loadBubble(null);
-    //loadGauge(null);
 }
 
+// loading IDs to dropdown
 function loadIDs() {
-    // Use D3 to select the dropdown menu
-    //var dropdownMenu = d3.select("#selDataset");
+    //importing data from json
     d3.json("data/samples.json").then((importedData) => {
+        // storing IDs to variable for loading to 
         ids = importedData.names;
+        console.log(ids);
         ids.forEach((id) => {
             var option = dropdownMenu.append("option");
             option.text(id);
@@ -20,36 +23,28 @@ function loadIDs() {
     });
 }
 
+// Reloading dynamic content on change of ID
 function optionChanged(selectedValue) {
     console.log(selectedValue);
     barPlot(selectedValue);
     loadDemographics(selectedValue);
     loadBubble(selectedValue);
-    //loadGauge(selectedValue);
 }
 
-// Use d3.json() to fetch data from JSON file
-// Incoming data is internally referred to as importedData
+// plotting bar chart
 function barPlot(selectedID) {
     d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
-        var data = importedData.samples;
-        
         console.log(selectedID);
-
+        var data = importedData.samples;
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
-        /*filteredData[0].sample_values.sort((sample1, sample2) => sample1 - sample2);
-        // Slice the first 10 objects for plotting
-        filteredData = filteredData.slice(0, 10);
-
-        // Reverse the array due to Plotly's defaults
-        filteredData = filteredData.reverse();*/
+        filteredData[0].sample_values.sort((sample1, sample2) => sample1 - sample2);
     
-        // Create your trace.
+        // Creating trace for top 10 values and Reversing the array due to Plotly's defaults
         xValues = filteredData[0].sample_values.slice(0,10).reverse();
         yValues = filteredData[0].otu_ids.slice(0,10).reverse();
         dataLabels = filteredData[0].otu_labels.slice(0,10).reverse();
@@ -61,10 +56,10 @@ function barPlot(selectedID) {
             orientation: "h"
         };
     
-        // Create the data array for our plot
+        // Creating data array for the plot
         var chartData = [trace];
     
-        // Define the plot layout
+        // Defining the plot layout
         var layout = {
             yaxis: {
                 tickvals: yValues.map((d, i) => i),
@@ -78,18 +73,20 @@ function barPlot(selectedID) {
             }
         };
     
-        // Plot the chart to a div tag with id "bar-plot"
+        // Ploting the chart to a div tag with id "bar"
         Plotly.newPlot("bar", chartData, layout);
     });
 }
 
-async function loadDemographics(selectedID) {
+//loading demographic information
+function loadDemographics(selectedID) {
     var demographicsDiv = d3.select("#sample-metadata");
     demographicsDiv.html("");
     d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
+        console.log(selectedID);
         var data = importedData.metadata;
         var filteredData = data.filter(row => row.id == selectedID);
         console.log(filteredData);
@@ -98,23 +95,23 @@ async function loadDemographics(selectedID) {
             span.text(key+": "+value);
             demographicsDiv.append("br");
         });
+        // loading gauge chart by passing wfreq value from the demographic data
         loadGauge(filteredData[0].wfreq)
     });
 }
 
+//loading bubble chart
 function loadBubble(selectedID) {
     d3.json("data/samples.json").then((importedData) => {
         if (selectedID == null) {
             selectedID = importedData.names[0];
         }
-        var data = importedData.samples;
-
         console.log(selectedID);
-
+        var data = importedData.samples;   
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
-        // Create your trace.
+        // Creating the trace
         xValues = filteredData[0].otu_ids.reverse();
         yValues = filteredData[0].sample_values.reverse();
         textValues = filteredData[0].otu_labels.reverse();
@@ -129,10 +126,10 @@ function loadBubble(selectedID) {
             text: textValues
         };
     
-        // Create the data array for our plot
+        // Creating the data array for the plot
         var chartData = [trace];
     
-        // Define the plot layout
+        // Defining the plot layout
         var layout = {
             xaxis: {
                 title: {
@@ -148,9 +145,10 @@ function loadBubble(selectedID) {
             }
         };
     
-        // Plot the chart to a div tag with id "bar-plot"
+        // Ploting the chart to a div tag with id "bubble"
         Plotly.newPlot("bubble", chartData, layout);
     });
 }
 
+// Initializing the function to initiate sequential load of dynamic content
 init();

@@ -61,22 +61,10 @@
     
 } */
 
+// Loaidng Gauge Chart
 function loadGauge(wfreq){
     var gaugeValue = wfreq;
-    /* d3.json("data/samples.json").then((importedData) => {
-        if (selectedID == null) {
-            selectedID = importedData.names[0];
-        }
-        var data = importedData.metadata;
-        var filteredData = data.filter(row => row.id == selectedID);
-        console.log(filteredData);
-        Object.entries(filteredData[0]).forEach(([key, value]) => {
-            if (key == "wfreq") {
-                gaugeValue = value;
-            }
-        });
-    }); */
-
+    
     // pie chart converted to gauge chart
     var trace = {
       type: 'pie',
@@ -89,7 +77,16 @@ function loadGauge(wfreq){
       textinfo: 'text',
       textposition: 'inside',
       marker: {
-        colors: ['#F8F3EC','#F4F1E5','#E9E6CA','#E2E4B1','#D5E49D','#B7CC92','#8CBF88','#8ABB8F','#85B48A','white'],
+        colors: ['#F8F3EC'
+                  ,'#F4F1E5'
+                  ,'#E9E6CA'
+                  ,'#E2E4B1'
+                  ,'#D5E49D'
+                  ,'#B7CC92'
+                  ,'#8CBF88'
+                  ,'#8ABB8F'
+                  ,'#85B48A'
+                  ,'white'],
         labels: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9',''],
         hoverinfo: "label"
       },
@@ -109,7 +106,7 @@ function loadGauge(wfreq){
       hoverinfo: "skip"
     }
   
-    // add weights to the degrees to correct needle
+    // adding weights to the degrees to correct needle
     var weight = 0;
     if (gaugeValue == 2 || gaugeValue == 3){
       weight = 3;
@@ -122,7 +119,8 @@ function loadGauge(wfreq){
     } else if (gaugeValue == 7){
       weight = -3;
     }
-  
+    
+    // Defining variables to compute path of gauge chart needle based on wfreq value
     var degrees = 180-(20 * gaugeValue + weight); // 20 degrees for each of the 9 gauge sections
     var radius = .5;
     var radians = degrees * Math.PI / 180;
@@ -133,12 +131,13 @@ function loadGauge(wfreq){
     var cX = radius * Math.cos(radians);
     var cY = radius * Math.sin(radians);
   
-    // draw the triangle
+    // drawing the triangle for needle
     var path = 'M ' + aX + ' ' + aY +
               ' L ' + bX + ' ' + bY +
               ' L ' + cX + ' ' + cY +
               ' Z';
   
+    // Defining Gauge chart layout
     var gaugeLayout = {
       title: "<b>Belly Button Washing Frequency</b><br>Scrubs per Week",
       shapes:[{
@@ -162,6 +161,6 @@ function loadGauge(wfreq){
               fixedrange: true
             }
     };
-  
+    //Ploting Gauge chart
     Plotly.newPlot("gauge", [trace, needleStart], gaugeLayout);
   }
