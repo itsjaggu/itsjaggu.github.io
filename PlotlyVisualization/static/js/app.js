@@ -42,7 +42,8 @@ function barPlot(selectedID) {
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
-        filteredData[0].sort(function(a,b) {
+        // Sorting data for Sample Values to get top 10
+        filteredData.sort(function(a,b) {
             return parseFloat(a.sample_values) - parseFloat(b.sample_values);
         });
     
