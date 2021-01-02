@@ -42,7 +42,9 @@ function barPlot(selectedID) {
         var filteredData = data.filter(row => row.id === selectedID);
         console.log(filteredData);
 
-        filteredData[0].sample_values.sort((sample1, sample2) => sample1 - sample2);
+        filteredData[0].sort(function(a,b) {
+            return parseFloat(a.sample_values) - parseFloat(b.sample_values);
+        });
     
         // Creating trace for top 10 values and Reversing the array due to Plotly's defaults
         xValues = filteredData[0].sample_values.slice(0,10).reverse();
