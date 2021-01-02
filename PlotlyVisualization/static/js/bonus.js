@@ -1,3 +1,4 @@
+// Default gauge chart from https://plot.ly/javascript/gauge-charts/
 /* function loadGauge(selectedID) {
     var gaugeValue = 0;
     d3.json("data/samples.json").then((importedData) => {
@@ -28,15 +29,15 @@
                     } ,
                 
                 steps: [
-                    { range: [0, 1], color: "rgba(255,255,0,0.4)" },
-                    { range: [1, 2], color: "rgba(245,245,0,0.6)" },
-                    { range: [2, 3], color: "rgba(235,235,0,0.8)" },
-                    { range: [3, 4], color: "rgba(230,230,0,1.0)" },
-                    { range: [4, 5], color: "rgba(220,220,0,1.0)" },
-                    { range: [5, 6], color: "rgba(200,200,0,0.8)" },
-                    { range: [6, 7], color: "rgba(0,128,0,0.6)" },
-                    { range: [7, 8], color: "rgba(0,128,0,0.8)" },
-                    { range: [8, 9], color: "rgba(0,128,0,1.0)" },
+                    { range: [0, 1], color: "#ecebbd" },
+                    { range: [1, 2], color: "#dde26a" },
+                    { range: [2, 3], color: "#d9e650" },
+                    { range: [3, 4], color: "#c9dc87" },
+                    { range: [4, 5], color: "#bdda57" },
+                    { range: [5, 6], color: "#9acd32" },
+                    { range: [6, 7], color: "#8bbe1b" },
+                    { range: [7, 8], color: "#568203" },
+                    { range: [8, 9], color: "#2a8000" }
                   ]
             },
             
@@ -61,7 +62,7 @@
     
 } */
 
-// Loaidng Gauge Chart
+// Gauge chart prepared from D3 pie chart
 function loadGauge(wfreq){
     var gaugeValue = wfreq;
     
